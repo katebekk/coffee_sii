@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ClimaticZone{% endblock %}
+
+{% block body %}
+    <h1>Edit ClimaticZone</h1>
+
+    {{ include('climatic_zone/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('climatic_zone_index') }}">back to list</a>
+
+    {{ include('climatic_zone/_delete_form.html.twig') }}
+{% endblock %}

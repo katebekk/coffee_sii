@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MethodOfProcessingCoffee index{% endblock %}
+
+{% block body %}
+    <h1>MethodOfProcessingCoffee index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for method_of_processing_coffee in method_of_processing_coffees %}
+            <tr>
+                <td>{{ method_of_processing_coffee.id }}</td>
+                <td>{{ method_of_processing_coffee.name }}</td>
+                <td>
+                    <a href="{{ path('method_of_processing_coffee_show', {'id': method_of_processing_coffee.id}) }}">show</a>
+                    <a href="{{ path('method_of_processing_coffee_edit', {'id': method_of_processing_coffee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('method_of_processing_coffee_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RegionOfOrigin index{% endblock %}
+
+{% block body %}
+    <h1>RegionOfOrigin index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for region_of_origin in region_of_origins %}
+            <tr>
+                <td>{{ region_of_origin.id }}</td>
+                <td>{{ region_of_origin.name }}</td>
+                <td>
+                    <a href="{{ path('region_of_origin_show', {'id': region_of_origin.id}) }}">show</a>
+                    <a href="{{ path('region_of_origin_edit', {'id': region_of_origin.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('region_of_origin_new') }}">Create new</a>
+{% endblock %}

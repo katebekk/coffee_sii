@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ClimaticZone{% endblock %}
+
+{% block body %}
+    <h1>Create new ClimaticZone</h1>
+
+    {{ include('climatic_zone/_form.html.twig') }}
+
+    <a href="{{ path('climatic_zone_index') }}">back to list</a>
+{% endblock %}

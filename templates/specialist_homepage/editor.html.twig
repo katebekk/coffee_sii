@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SpecialistHomepageController!{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+        <h1>Выберете раздел </h1>
+        <ul>
+            <li><button class="green"><a href="{{ path("coffee_index") }}">Сорта кофе</a> </button></li>
+            <li><button class="green"><a href="">Признаки</a> </button></li>
+            <li><button class="green"><a href="">Возможные значения признаков</a> </button></li>
+            <li><button class="green"><a href="">Признаковое описание сорта</a> </button></li>
+            <li><button class="green"><a href="">Значения признаков для сорта</a> </button></li>
+            <li><button class="green"><a href="">Проверка целостности</a> </button></li>
+        </ul>
+    </div>
+{% endblock %}
