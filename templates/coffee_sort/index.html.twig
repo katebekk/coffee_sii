@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CoffeeSort index{% endblock %}
+
+{% block body %}
+    <h1>Список сортов</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for coffee_sort in coffee_sorts %}
+            <tr>
+                <td>{{ coffee_sort.name }}</td>
+                <td>
+{#                    <a href="{{ path('coffee_sort_show', {'id': coffee_sort.id}) }}">show</a>#}
+{#                    <a href="{{ path('coffee_sort_edit', {'id': coffee_sort.id}) }}">edit</a>#}
+                    {{ include('coffee_sort/_delete_form.html.twig') }}
+                </td>
+            </tr>
+
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+{#        {{ include('coffee_sort/_form.html.twig') }}#}
+        </tbody>
+    </table>
+    {{ include('coffee_sort/_form.html.twig') }}
+    <a href="{{ path('knowledge_editor') }}">назад</a>
+{#    <a href="{{ path('coffee_sort_new') }}">Create new</a>#}
+{% endblock %}

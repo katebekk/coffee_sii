@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CountFeature index{% endblock %}
+
+{% block body %}
+    <h1>CountFeature index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for count_feature in count_features %}
+            <tr>
+                <td>{{ count_feature.id }}</td>
+                <td>{{ count_feature.name }}</td>
+                <td>
+                    <a href="{{ path('count_feature_show', {'id': count_feature.id}) }}">show</a>
+                    <a href="{{ path('count_feature_edit', {'id': count_feature.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('count_feature_new') }}">Create new</a>
+{% endblock %}

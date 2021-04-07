@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New QuanFeature{% endblock %}
+
+{% block body %}
+    <h1>Create new QuanFeature</h1>
+
+    {{ include('quan_feature/_form.html.twig') }}
+
+    <a href="{{ path('feature_index') }}">back to list</a>
+{% endblock %}

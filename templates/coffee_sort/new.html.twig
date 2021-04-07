@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CoffeeSort{% endblock %}
+
+{% block body %}
+    <h1>Create new CoffeeSort</h1>
+
+    {{ include('coffee_sort/_form.html.twig') }}
+
+    <a href="{{ path('coffee_sort_index') }}">back to list</a>
+{% endblock %}
