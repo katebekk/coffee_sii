@@ -78,7 +78,7 @@ class CountFeatureController extends AbstractController
                 $entityManager->persist($countPossibleValues);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('feature_edit');
+                return $this->redirectToRoute('feature_index');
             }
 
         }else{
@@ -88,7 +88,7 @@ class CountFeatureController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('feature_edit');
+                return $this->redirectToRoute('feature_index');
             }
         }
         return $this->render('count_feature/edit.html.twig', [

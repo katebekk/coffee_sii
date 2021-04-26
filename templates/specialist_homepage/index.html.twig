@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SpecialistHomepageController!{% endblock %}
+{% block title %}Домашняя страница{% endblock %}
 
 {% block body %}
 <style>
@@ -9,8 +9,8 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ app.user.username }}! </h1>
-    <ul>
+{#    <h1>Hello {{ app.user.username }}! </h1>#}
+    <ul class="button-list">
         <li><button class="green"><a href="{{ path('knowledge_editor') }}">Редактировать знания</a> </button></li>
         <li><button class="green"><a href="">Определить сорт кофе</a> </button></li>
     </ul>

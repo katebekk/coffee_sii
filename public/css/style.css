@@ -21,6 +21,7 @@ ul{
     list-style-type: none;
 }
 
+
 header {
     color: #ffffff;
     background: #232423;
@@ -35,10 +36,12 @@ header nav ul{
     align-items: center;
 }
 
+
 header nav a {
     text-decoration: none;
     color: #ffffff;
 }
+
 
 header .header_logo {
     padding:20px 15px;
@@ -73,11 +76,12 @@ header button.green  a{
     color: #ffffff;;
 }
 button.green {
+
     color: #ffffff;
-    padding: 9px 25px;
+    padding: 0px 5px;
     background-color: rgba(0, 132, 169, 1);
     border: 1px solid gray;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-left:20px;
     cursor: pointer;
 }
@@ -130,4 +134,17 @@ body button.btn {
     border-radius: 10px;
     margin-left:20px;
     cursor: pointer;
+    margin: 5px;
+}
+
+body li {
+    margin: 5px;
+}
+
+body .layer {
+    overflow-x: auto; /* Добавляем полосы прокрутки */
+    width: calc(100vw - 100px); /* Ширина блока */
+    height: calc(100vw - 100px); /* Высота блока */
+    padding: 5px; /* Поля вокруг текста */
+    /*border: solid 1px black; !* Параметры рамки *!*/
 }

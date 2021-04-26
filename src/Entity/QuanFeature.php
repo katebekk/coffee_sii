@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\QuanFeatureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=QuanFeatureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Признак с таким названием уже существует")
  */
 class QuanFeature
 {
@@ -20,15 +22,14 @@ class QuanFeature
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuanPossibleValues::class, mappedBy="feature")
+     * @ORM\OneToMany(targetEntity=QuanPossibleValues::class, mappedBy="feature", cascade={"persist", "remove"})
      */
     private $quanPossibleValues;
-
 
 
     public function __construct()
@@ -81,6 +82,10 @@ class QuanFeature
         }
 
         return $this;
+    }
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
     }
     
 }

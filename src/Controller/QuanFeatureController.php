@@ -96,7 +96,7 @@ class QuanFeatureController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('feature_edit');
+        return $this->redirectToRoute('feature_index');
     }
 
     /**

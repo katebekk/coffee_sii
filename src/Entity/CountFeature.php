@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\CountFeatureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CountFeatureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Признак с таким названием уже существует")
  */
 class CountFeature
 {
@@ -20,7 +22,7 @@ class CountFeature
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $name;
 
@@ -64,5 +66,9 @@ class CountFeature
         $this->countPossibleValues = $countPossibleValues;
 
         return $this;
+    }
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
     }
 }

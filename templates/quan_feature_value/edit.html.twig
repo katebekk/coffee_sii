@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit QuanFeatureValue{% endblock %}
+
+{% block body %}
+    <h1>Edit QuanFeatureValue</h1>
+
+    {{ include('quan_feature_value/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('quan_feature_value_index') }}">back to list</a>
+
+    {{ include('quan_feature_value/_delete_form.html.twig') }}
+{% endblock %}

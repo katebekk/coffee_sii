@@ -3,61 +3,92 @@
 {% block title %}Редактор признаков{% endblock %}
 
 {% block body %}
-    <h1>Список признаков</h1>
+    <style>
+        .layer {
+            overflow-x: auto; /* Добавляем полосы прокрутки */
+            width: calc(100vw - 100px); /* Ширина блока */
+            height: 50%; /* Высота блока */
+            padding: 5px; /* Поля вокруг текста */
+            /*border: solid 1px black; !* Параметры рамки *!*/
+        }
+    </style>
+    <h2>Список признаков</h2>
 
-    <table class="table">
-        <thead>
+    <div class="layer">
+        <table class="table">
+            <thead>
             <tr>
-                <th>Name</th>
+                <th>Название</th>
+                <th>Тип признака</th>
+                <th>Допустимые значения</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for quan_feature in quan_features %}
-            <tr>
-                <td>{{ quan_feature.name }}</td>
-                <td>
-                    {{ include('quan_feature/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no quan features found</td>
-            </tr>
-        {% endfor %}
-        {% for count_feature in count_features %}
-            <tr>
-                <td>{{ count_feature.name }}</td>
-                <td>
-                    {{ include('count_feature/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no count features found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    {#Качественный признак <input type="checkbox" id="quanFeature" >
-    Количественный признак <input type="checkbox" id="countFeature">#}
-
-    {#<button onclick="myFunction()">Добавить</button>#}
-    <a>Добавить признак: </a>
+            </thead>
+            <tbody>
+            {% for quan_feature in quan_features %}
+                <tr>
+                    <td>{{ quan_feature.name }}</td>
+                    <td>качественный</td>
+                    <td>[{% for value in quan_feature.quanPossibleValues %}
+                        {{ value.name }} ,
+                    {% else %}
+                        ...
+                        {% endfor %}]
+                    </td>
+                    <td>
+                        <button class="green"><a href="{{ path('quan_feature_edit', {'id': quan_feature.id}) }}">Редактировать</a>
+                        </button>
+                    </td>
+                    <td>
+                        {{ include('quan_feature/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">качественные признаки отсутствуют</td>
+                </tr>
+            {% endfor %}
+            {% for count_feature in count_features %}
+                <tr>
+                    <td>{{ count_feature.name }}</td>
+                    <td>количественный</td>
+                    <td>{% if count_feature.countPossibleValues %}
+                            [ {{ count_feature.countPossibleValues.min }}: {{ count_feature.countPossibleValues.max }} ]
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="green"><a href="{{ path('count_feature_edit', {'id': count_feature.id}) }}">Редактировать</a>
+                        </button>
+                    </td>
+                    <td>
+                        {{ include('count_feature/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">количественные признаки отсутствуют</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>Добавить признак: </h2>
     <ul>
-        <li><button class="green"><a href="{{ path('quan_feature_new') }}">качественный</a></button></li>
-        <li><button class="green"><a href="{{ path('count_feature_new') }}">количественный</a></button></li>
+        <li>
+            <button class="green"><a href="{{ path('quan_feature_new') }}">качественный</a></button>
+        </li>
+        <li>
+            <button class="green"><a href="{{ path('count_feature_new') }}">количественный</a></button>
+        </li>
     </ul>
-
-
     <script>
         function myFunction() {
             var btn = document.createElement("BUTTON");
-            if(document.getElementById("quanFeature").checked){
+            if (document.getElementById("quanFeature").checked) {
 
                 btn.innerHTML = "create quan feature";
                 document.body.appendChild(btn);
-            }else if(document.getElementById("countFeature").checked){
+            } else if (document.getElementById("countFeature").checked) {
                 btn.innerHTML = "create count feature";
                 document.body.appendChild(btn);
             }
@@ -65,6 +96,4 @@
         }
     </script>
     <a href="{{ path('knowledge_editor') }}">назад</a>
-
-{#    <a href="{{ path('feature_new') }}">Create new</a>#}
 {% endblock %}

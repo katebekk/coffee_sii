@@ -12,6 +12,10 @@ class QuanPossibleValuesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('feature', TextType::class, [
+                'label' => false,
+                'disabled' => true,
+            ])
             ->add('name')
         ;
     }

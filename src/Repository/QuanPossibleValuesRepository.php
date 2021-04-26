@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\QuanPossibleValues;
+use App\Entity\QuanFeature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,32 +20,32 @@ class QuanPossibleValuesRepository extends ServiceEntityRepository
         parent::__construct($registry, QuanPossibleValues::class);
     }
 
-    // /**
-    //  * @return QuanPossibleValues[] Returns an array of QuanPossibleValues objects
-    //  */
-    /*
-    public function findByExampleField($value)
+//     /**
+//      * @return QuanPossibleValues[] Returns an array of QuanPossibleValues objects
+//      */
+
+    public function findByFeatureField($value)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
+            ->andWhere('q.id = :val')
             ->setParameter('val', $value)
             ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?QuanPossibleValues
+
+
+    /*public function findOneByFeatureField(): ?QuanPossibleValues
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('q.feature = :val')
+            ->setParameter('val', 0 )
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
+
 }

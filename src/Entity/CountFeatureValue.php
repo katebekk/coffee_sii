@@ -34,6 +34,16 @@ class CountFeatureValue
      */
     private $feature;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $min;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $max;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +81,30 @@ class CountFeatureValue
     public function setFeature(?CountFeature $feature): self
     {
         $this->feature = $feature;
+
+        return $this;
+    }
+
+    public function getMin(): ?float
+    {
+        return $this->min;
+    }
+
+    public function setMin(float $min): self
+    {
+        $this->min = $min;
+
+        return $this;
+    }
+
+    public function getMax(): ?float
+    {
+        return $this->max;
+    }
+
+    public function setMax(float $max): self
+    {
+        $this->max = $max;
 
         return $this;
     }

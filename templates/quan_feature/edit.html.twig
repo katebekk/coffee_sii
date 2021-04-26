@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit QuanFeature{% endblock %}
+{% block title %}возможные значения{% endblock %}
 
 {% block body %}
-    <h3>Редактировать признак: {{ quan_feature.name }}</h3>
+    <h3> {{ quan_feature.name }} : возможные значения</h3>
 
     <table class="table">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>actions</th>
+            <th>Название</th>
         </tr>
         </thead>
         <tbody>
@@ -22,12 +21,12 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Значения не добавлены</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {{ include('quan_feature/_form.html.twig') }}
-    <a href="{{ path('feature_edit') }}">назад</a>
+    <a href="{{ path('feature_index') }}">назад</a>
 
 {% endblock %}

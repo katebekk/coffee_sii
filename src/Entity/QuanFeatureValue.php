@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuanFeatureValueRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,10 +19,7 @@ class QuanFeatureValue
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $value;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=CoffeeSort::class, inversedBy="quanFeatureValues", cascade={"persist", "remove"})
@@ -34,21 +33,19 @@ class QuanFeatureValue
      */
     private $feature;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=QuanPossibleValues::class)
+     */
+    private $featureValues;
+
+    public function __construct()
+    {
+        $this->featureValues = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
-
-        return $this;
     }
 
     public function getCoffeeSort(): ?CoffeeSort
@@ -71,6 +68,30 @@ class QuanFeatureValue
     public function setFeature(?QuanFeature $feature): self
     {
         $this->feature = $feature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|QuanPossibleValues[]
+     */
+    public function getFeatureValues(): Collection
+    {
+        return $this->featureValues;
+    }
+
+    public function addFeatureValue(QuanPossibleValues $featureValue): self
+    {
+        if (!$this->featureValues->contains($featureValue)) {
+            $this->featureValues[] = $featureValue;
+        }
+
+        return $this;
+    }
+
+    public function removeFeatureValue(QuanPossibleValues $featureValue): self
+    {
+        $this->featureValues->removeElement($featureValue);
 
         return $this;
     }

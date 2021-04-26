@@ -62,7 +62,7 @@ class CountPossibleValues
         return $this;
     }
 
-    public function getFeature(): ?CountFeature
+    public function getfeature(): ?CountFeature
     {
         return $this->feature;
     }
