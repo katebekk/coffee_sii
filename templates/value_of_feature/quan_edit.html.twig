@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать значение признака сорта{% endblock %}
+
+{% block body %}
+    <h1>Редактировать значение признака сорта</h1>
+    {% if featureValues %}
+    <form action="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}" method="post">
+        <div class="container">
+            <ul class="cboxtags">
+                {% for value in values %}
+
+                    {% if value in featureValues %}
+                        <li>
+                            <input type="checkbox" id="{{ value.id }}" value="{{ value.id }}" checked class="checkbox" name="values[]">
+                            <label for="{{ value.id }}">{{ value.name }}</label>
+                        </li>
+                    {% else %}
+                        <li>
+                            <input type="checkbox" id="{{ value.id }}" value="{{ value.id }}" class="checkbox" name="values[]">
+                            <label for="{{ value.id }}">{{ value.name }}</label>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <input hidden name="submit">
+        <input type="submit" value="Сохранить" class="nav">
+    </form>
+    {% else %}
+        <a>Добавьте возможные значения признака</a>
+        <button class="green"><a href="{{ path('quan_feature_edit', {'id': feature.id}) }}">Редактировать</a>
+        </button>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Проверка целостности для сорта{% endblock %}
+
+{% block body %}
+    <style>
+    </style>
+
+    <h2>Проверка целостности для сорта</h2>
+    {% if coffeeSort %}
+        <form action="{{ path('value_of_feature') }}" method="post">
+            <div class="select">
+                <select name="select" required class="select">
+                    <option value="{{ coffeeSort.id }}"> {{ coffeeSort }}</option>
+                    {% for otherSort in coffeeSorts %}
+                        {% if otherSort != coffeeSort %}
+                            <option value="{{ otherSort.id }}">{{ otherSort }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="hidden" name="submit">
+            <input type="submit" value="Выбрать" class="nav">
+            <div class="white_space">.</div>
+        </form>
+
+        {% include 'value_of_feature/table.html.twig' with {
+            coffeeSort: coffeeSort,
+            countFeatureValue: countFeatureValue,
+            quanFeatureValue : quanFeatureValue
+        } %}
+    {% else %}
+        <form action="{{ path('value_of_feature') }}" method="post">
+            <div class="select">
+                <select name="select" required>
+                    <option selected disabled>Выберите сорт</option>
+                    {% for otherSort in coffeeSorts %}
+                        <option value="{{ otherSort.id }}">{{ otherSort }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="hidden" name="submit">
+            <input type="submit" value="Выбрать" class="nav">
+            <div class="white_space">.</div>
+        </form>
+    {% endif %}
+    <a href="{{ path('knowledge_editor') }}">назад</a>
+
+{% endblock %}

@@ -81,19 +81,5 @@
             <button class="green"><a href="{{ path('count_feature_new') }}">количественный</a></button>
         </li>
     </ul>
-    <script>
-        function myFunction() {
-            var btn = document.createElement("BUTTON");
-            if (document.getElementById("quanFeature").checked) {
-
-                btn.innerHTML = "create quan feature";
-                document.body.appendChild(btn);
-            } else if (document.getElementById("countFeature").checked) {
-                btn.innerHTML = "create count feature";
-                document.body.appendChild(btn);
-            }
-
-        }
-    </script>
     <a href="{{ path('knowledge_editor') }}">назад</a>
 {% endblock %}

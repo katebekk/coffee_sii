@@ -6,10 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/specialist")
+ */
 class SpecialistHomepageController extends AbstractController
 {
     /**
-     * @Route("/specialist/homepage", name="specialist_homepage")
+     * @Route("/homepage", name="specialist_homepage")
      */
     public function index(): Response
     {
@@ -18,7 +21,7 @@ class SpecialistHomepageController extends AbstractController
         ]);
     }
     /**
-     * @Route("/knowledge/editor", name="knowledge_editor")
+     * @Route("/editor", name="knowledge_editor")
      */
     public function editor(): Response
     {

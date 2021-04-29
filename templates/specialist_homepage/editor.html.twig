@@ -9,8 +9,9 @@
         <ul class="button-list">
             <li><div><button class="green"><a href="{{ path("coffee_sort_index") }}">Сорта кофе</a> </button></div></li>
             <li><button class="green"><a href="{{ path("feature_index") }}">Признаки</a> </button></li>
-            <li><button class="green"><a href="">Признаковое описание сорта</a> </button></li>
-            <li><button class="green"><a href="">Проверка целостности</a> </button></li>
+            <li><button class="green"><a href="{{ path("features_of_sort_index")}}">Редактор признаков сорта</a> </button></li>
+            <li><button class="green"><a href="{{ path("value_of_feature")}}">Редактор значений признаков сорта</a> </button></li>
+            <li><button class="green"><a href="{{ path("integrity_check")}}">Проверка целостности</a> </button></li>
         </ul>
     </div>
 {% endblock %}

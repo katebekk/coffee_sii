@@ -30,10 +30,7 @@
                     <td>{{ coffee_sort.name }}</td>
 
                     <td>
-                        <button class="green"><a
-                                    href="{{ path('coffee_sort_features_values',  {'id': coffee_sort.id}) }}">Признаковое
-                                описание</a>
-                            {{ include('coffee_sort/_delete_form.html.twig') }}
+                        {{ include('coffee_sort/_delete_form.html.twig') }}
                     </td>
 
                 </tr>
@@ -43,12 +40,10 @@
                     <td colspan="3">Сорта кофе не добавлены</td>
                 </tr>
             {% endfor %}
-            {# {{ include('coffee_sort/_form.html.twig') }} #}
             </tbody>
         </table>
     </div>
     <h2>Новый сорт</h2>
     {{ include('coffee_sort/_form.html.twig') }}
     <a href="{{ path('knowledge_editor') }}">назад</a>
-    {# <a href="{{ path('coffee_sort_new') }}">Create new</a> #}
 {% endblock %}

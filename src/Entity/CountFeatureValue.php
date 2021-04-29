@@ -18,11 +18,6 @@ class CountFeatureValue
     private $id;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $value;
-
-    /**
      * @ORM\ManyToOne(targetEntity=CoffeeSort::class, inversedBy="countFeatureValues", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -49,17 +44,6 @@ class CountFeatureValue
         return $this->id;
     }
 
-    public function getValue(): ?float
-    {
-        return $this->value;
-    }
-
-    public function setValue(float $value): self
-    {
-        $this->value = $value;
-
-        return $this;
-    }
 
     public function getCoffeeSort(): ?CoffeeSort
     {

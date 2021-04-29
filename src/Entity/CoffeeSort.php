@@ -35,12 +35,12 @@ class CoffeeSort
     private $countFeatures;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuanFeatureValue::class, mappedBy="coffeeSort")
+     * @ORM\OneToMany(targetEntity=QuanFeatureValue::class, mappedBy="coffeeSort", cascade={"persist", "remove"})
      */
     private $quanFeatureValues;
 
     /**
-     * @ORM\OneToMany(targetEntity=CountFeatureValue::class, mappedBy="coffeeSort")
+     * @ORM\OneToMany(targetEntity=CountFeatureValue::class, mappedBy="coffeeSort", cascade={"persist", "remove"})
      */
     private $countFeatureValues;
 
@@ -81,7 +81,7 @@ class CoffeeSort
     {
         if (!$this->quanFeatures->contains($quanFeature)) {
             $this->quanFeatures[] = $quanFeature;
-            $quanFeature->addCoffeeSort($this);
+            //$quanFeature->addCoffeeSort($this);
         }
 
         return $this;
@@ -109,7 +109,7 @@ class CoffeeSort
     {
         if (!$this->countFeatures->contains($countFeature)) {
             $this->countFeatures[] = $countFeature;
-            $countFeature->addCoffeeSort($this);
+            //$countFeature->addCoffeeSort($this);
         }
 
         return $this;
@@ -182,5 +182,9 @@ class CoffeeSort
         }
 
         return $this;
+    }
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
     }
 }

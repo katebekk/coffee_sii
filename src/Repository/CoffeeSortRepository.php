@@ -37,7 +37,7 @@ class CoffeeSortRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CoffeeSort
+    public function findOneBy($value): ?CoffeeSort
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

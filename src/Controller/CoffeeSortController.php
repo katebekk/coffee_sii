@@ -10,6 +10,7 @@ use App\Form\QuanFeatureValueType;
 use App\Repository\CoffeeSortRepository;
 use App\Repository\QuanFeatureRepository;
 use App\Repository\CountFeatureRepository;
+use App\Repository\QuanPossibleValuesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 /**
- * @Route("/coffee/sort")
+ * @Route("/specialist/coffee/sort")
  */
 class CoffeeSortController extends AbstractController
 {
@@ -144,8 +145,6 @@ class CoffeeSortController extends AbstractController
         }
 
         return $this->render('coffee_sort/features_values.html.twig', [
-            'countFeatures' => $countFeatureRepository->findAll(),
-            'quanFeatures' => $quanFeatureRepository->findAll(),
             'coffee_sort' => $coffeeSort,
             'form' => $form->createView(),
         ]);
@@ -156,8 +155,8 @@ class CoffeeSortController extends AbstractController
      */
     public function addQuanFeatureValue(Request $request,CoffeeSort $coffeeSort, QuanFeature $quanFeature): Response
     {
-        $coffeeSort = new CoffeeSort();
-        $form = $this->createForm(CoffeeSortType::class, $coffeeSort);
+
+        $form = $this->createForm(CoffeeSortType::class, $coffeeSort, );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -171,6 +170,39 @@ class CoffeeSortController extends AbstractController
         return $this->render('coffee_sort/new.html.twig', [
             'coffee_sort' => $coffeeSort,
             'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/values/{id}", name="coffee_sort_features_edit", methods={"GET","POST"})
+     */
+    public function featuresValuesEdit(Request $request, CoffeeSort $coffeeSort, CountFeatureRepository $countFeatureRepository, QuanFeatureRepository $quanFeatureRepository): Response
+    {
+        foreach ($quanFeatureRepository->findAll() as $quanFeature) {
+            $quanFeatureValue = new QuanFeatureValue();
+            $quanFeatureValue->setCoffeeSort($coffeeSort);
+            $quanFeatureValue->setFeature($quanFeature);
+            $coffeeSort->addQuanFeatureValue($quanFeatureValue);
+        }
+        foreach ($countFeatureRepository->findAll() as $countFeature) {
+            $countFeatureValue = new CountFeatureValue();
+            $countFeatureValue->setCoffeeSort($coffeeSort);
+            $countFeatureValue->setFeature($countFeature);
+            $coffeeSort->addCountFeatureValue($countFeatureValue);
+        }
+
+        if ($request->request->has('submit')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            //$entityManager->persist($coffeeSort);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('coffee_sort_index');
+        }
+
+        return $this->render('coffee_sort/features_values.html.twig', [
+            'coffee_sort' => $coffeeSort,
+            'quan_features' => $coffeeSort->getQuanFeatureValues(),
+            'count_features' => $coffeeSort->getCountFeatureValues(),
+            //'form' => $form->createView(),
         ]);
     }
 
