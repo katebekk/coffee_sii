@@ -17,15 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CountFeatureController extends AbstractController
 {
-    /**
-     * @Route("/", name="count_feature_index", methods={"GET"})
-     */
-    public function index(CountFeatureRepository $countFeatureRepository): Response
-    {
-        return $this->render('count_feature/index.html.twig', [
-            'count_features' => $countFeatureRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="count_feature_new", methods={"GET","POST"})
@@ -49,17 +40,7 @@ class CountFeatureController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/{id}", name="count_feature_show", methods={"GET"})
-     */
-    public function show(CountFeature $countFeature): Response
-    {
-        return $this->render('count_feature/show.html.twig', [
-            'count_feature' => $countFeature,
-        ]);
-    }
-
+    
     /**
      * @Route("/{id}/edit", name="count_feature_edit", methods={"GET","POST"})
      */

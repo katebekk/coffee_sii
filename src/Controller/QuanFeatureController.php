@@ -17,15 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class QuanFeatureController extends AbstractController
 {
-    /**
-     * @Route("/", name="quan_feature_index", methods={"GET"})
-     */
-    public function index(QuanFeatureRepository $quanFeatureRepository): Response
-    {
-        return $this->render('quan_feature/index.html.twig', [
-            'quan_features' => $quanFeatureRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="quan_feature_new", methods={"GET","POST"})
@@ -50,15 +41,6 @@ class QuanFeatureController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="quan_feature_show", methods={"GET"})
-     */
-    public function show(QuanFeature $quanFeature): Response
-    {
-        return $this->render('quan_feature/show.html.twig', [
-            'quan_feature' => $quanFeature,
-        ]);
-    }
 
     /**
      * @Route("/{id}/edit", name="quan_feature_edit", methods={"GET","POST"})
