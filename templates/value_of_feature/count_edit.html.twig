@@ -3,11 +3,13 @@
 {% block title %}Редактировать значение признака сорта{% endblock %}
 
 {% block body %}
-    <h1>Редактировать значение признака сорта</h1>
+    <div class="container bg-light">
+    <h3>Редактировать значение признака сорта {{ coffeeSort }}</h3>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn" type="submit">{{ button_label|default('Сохранить') }}</button>
+    <button class="btn btn-lg btn-primary mt-1" type="submit">{{ button_label|default('Сохранить') }}</button>
     {{ form_end(form) }}
-
+        <a href="{{ path('value_of_feature',{'sortId':coffeeSort.id}) }}">назад</a>
+    </div>
 {% endblock %}

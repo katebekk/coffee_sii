@@ -1,4 +1,5 @@
 {{ form_start(form) }}
-    {{ form_widget(form, { 'label': 'Название сорта ' }) }}
-    <button class="btn">{{ button_label|default('Сохранить') }}</button>
+    <label class=" mt-1" for="quanFeatur">Новое значение</label>
+    {{ form_widget(form, { 'id': 'quanFeature ' }) }}
+    <button class="btn btn-lg btn-primary mt-1">{{ button_label|default('Добавить') }}</button>
 {{ form_end(form) }}

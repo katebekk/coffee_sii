@@ -1,16 +1,17 @@
-<table border="2" >
+<div class="container">
+    <table class="table bg-light">
     <thead>
     <tr>
-        <th>Признак</th>
-        <th>Значение признака</th>
-        <th>Действия</th>
+        <th scope="col">Признак</th>
+        <th scope="col">Значение признака</th>
+        <th scope="col">Действия</th>
     </tr>
     </thead>
     <tbody>
     {% for feature in coffeeSort.countfeatures %}
         {% set empty = true %}
         <tr>
-            <td>{{ feature }}</td>
+            <td scope="row">{{ feature }}</td>
             {% for value in countFeatureValue %}
                 {% if value.coffeeSort == coffeeSort and value.feature == feature %}
                     <td>
@@ -18,7 +19,8 @@
                         {{ value.max }}]
                     </td>
                     <td>
-                        <a href="{{ path('value_of_count_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
+                        <a class="btn-light nav-link link-dark px-2"
+                           href="{{ path('value_of_count_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
                     </td>
                     {% set empty = false %}
                 {% endif %}
@@ -28,14 +30,15 @@
                     Нет значения
                 </td>
                 <td>
-                    <a href="{{ path('value_of_count_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
+                    <a class="btn-light nav-link link-dark px-2"
+                       href="{{ path('value_of_count_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
                 </td>
             {% endif %}
         </tr>
     {% else %}
-        <tr>
-            <td colspan="3">Для данного сорта не указаны признаки</td>
-        </tr>
+{#        <tr>#}
+{#            <td colspan="3">Для данного сорта не указаны признаки</td>#}
+{#        </tr>#}
     {% endfor %}
     {% for feature in coffeeSort.quanfeatures %}
         {% set empty = true %}
@@ -52,7 +55,8 @@
                         </ul>
                     </td>
                     <td>
-                        <a href="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
+                        <a class="btn-light nav-link link-dark px-2"
+                           href="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
                     </td>
                     {% set empty = false %}
                 {% endif %}
@@ -62,14 +66,25 @@
                     Нет значения
                 </td>
                 <td>
-                    <a href="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
+                    <a class="btn-light nav-link link-dark px-2"
+                       href="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}">Редактировать</a>
                 </td>
             {% endif %}
         </tr>
     {% else %}
-        <tr>
-            <td colspan="3">Для данного сорта не указаны признаки</td>
-        </tr>
+{#        <tr>#}
+{#            <td colspan="3">Для данного сорта не указаны признаки</td>#}
+{#        </tr>#}
     {% endfor %}
+    {% if coffeeSort.quanfeatures|length == 0 and coffeeSort.countfeatures|length == 0 %}
+        <tr>
+            <td>
+                <a class="btn-light nav-link link-dark px-2"
+                   href="{{ path('features_of_sort_edit', {'id': coffeeSort.id}) }}"> Укажите признаки для сорта</a>
+            </td>
+        </tr>
+    {% endif %}
+
     </tbody>
 </table>
+</div>

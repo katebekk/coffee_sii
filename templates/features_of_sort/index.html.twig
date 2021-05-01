@@ -3,30 +3,21 @@
 {% block title %}Редактор признаков сортов{% endblock %}
 
 {% block body %}
-    <style>
-        .layer {
-            overflow-x: auto; /* Добавляем полосы прокрутки */
-            width: calc(100vw - 100px); /* Ширина блока */
-            height: 50%; /* Высота блока */
-            padding: 5px; /* Поля вокруг текста */
-            /*border: solid 1px black; !* Параметры рамки *!*/
-        }
-    </style>
-    <h2>Редактирование признаков сортов</h2>
 
-    <div class="layer">
-        <table class="table" >
+    <div class="container">
+        <h2>Редактирование признаков сортов</h2>
+        <table class="table bg-light" >
             <thead>
             <tr>
-                <th>Сорт кофе</th>
-                <th>Признаки сорта</th>
-                <th>Действия</th>
+                <th scope="col">Сорт кофе</th>
+                <th scope="col">Признаки сорта</th>
+                <th scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
             {% for coffeeSort in coffeeSorts %}
                 <tr>
-                    <td>{{ coffeeSort }}</td>
+                    <td scope="row">{{ coffeeSort }}</td>
                     <td>
                         <ul>
                             {% for feature in coffeeSort.quanFeatures %}
@@ -42,8 +33,7 @@
                         </ul>
                     </td>
                     <td>
-                        <button class="green"><a href="{{ path('features_of_sort_edit', {'id': coffeeSort.id}) }}">Редактировать</a>
-                        </button>
+                        <a class="btn-light nav-link link-dark px-2"  href="{{ path('features_of_sort_edit', {'id': coffeeSort.id}) }}">Редактировать</a>
                     </td>
                 </tr>
             {% else %}

@@ -3,15 +3,16 @@
 {% block title %}Редактор знаний{% endblock %}
 
 {% block body %}
-
-    <div class="example-wrapper">
-        <h1>Выберете раздел </h1>
-        <ul class="button-list">
-            <li><div><button class="green"><a href="{{ path("coffee_sort_index") }}">Сорта кофе</a> </button></div></li>
-            <li><button class="green"><a href="{{ path("feature_index") }}">Признаки</a> </button></li>
-            <li><button class="green"><a href="{{ path("features_of_sort_index")}}">Редактор признаков сорта</a> </button></li>
-            <li><button class="green"><a href="{{ path("value_of_feature")}}">Редактор значений признаков сорта</a> </button></li>
-            <li><button class="green"><a href="{{ path("integrity_check")}}">Проверка целостности</a> </button></li>
-        </ul>
+    <section class="jumbotron text-center">
+    <div class="container">
+        <h2 class="font-weight-light">Выберете раздел </h2>
+        <div class="list-group">
+            <a class="list-group-item btn-light nav-link link-light px-2" href="{{ path("coffee_sort_index") }}" >Сорта кофе</a></li>
+            <a class="list-group-item btn-light nav-link link-light px-2" href="{{ path("feature_index") }}">Признаки</a></li>
+            <a class="list-group-item btn-light nav-link link-light px-2" href="{{ path("features_of_sort_index")}}">Редактор признаков сорта</a>
+            <a class="list-group-item btn-light nav-link link-light px-2" href="{{ path("value_of_feature")}}">Редактор значений признаков сорта</a>
+            <a class="list-group-item btn-light nav-link link-light px-2" href="{{ path("integrity_check")}}">Проверка целостности</a>
+        </div>
     </div>
+    </section>
 {% endblock %}

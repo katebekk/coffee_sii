@@ -5,12 +5,12 @@
 {% block body %}
     <style>
     </style>
-
-    <h1>Редактор значений признаков для сорта</h1>
+    <div class="container">
+    <h2>Редактор значений признаков для сорта</h2>
     {% if coffeeSort %}
         <form action="{{ path('value_of_feature') }}" method="post">
-            <div class="select">
-                <select name="select" required class="select">
+            <div class="input-group">
+                <select name="select" required class="custom-select" id="inputGroupSelect04">
                     <option value="{{ coffeeSort.id }}"> {{ coffeeSort }}</option>
                     {% for otherSort in coffeeSorts %}
                         {% if otherSort != coffeeSort %}
@@ -18,9 +18,12 @@
                         {% endif %}
                     {% endfor %}
                 </select>
+                <div class="input-group-append">
+                    <input type="hidden" name="submit">
+                    <input type="submit" value="Выбрать" class="btn btn-outline-secondary">
+                </div>
             </div>
-            <input type="hidden" name="submit">
-            <input type="submit" value="Выбрать" class="nav">
+
             <div class="white_space">.</div>
         </form>
 
@@ -31,19 +34,20 @@
         } %}
     {% else %}
         <form action="{{ path('value_of_feature') }}" method="post">
-            <div class="select">
-                <select name="select" required>
+            <div class="input-group">
+                <select name="select" required class="custom-select" id="inputGroupSelect04">
                     <option selected disabled>Выберите сорт</option>
                     {% for otherSort in coffeeSorts %}
                         <option value="{{ otherSort.id }}">{{ otherSort }}</option>
                     {% endfor %}
                 </select>
+                <div class="input-group-append">
+                    <input type="hidden" name="submit">
+                    <input type="submit" value="Выбрать" class="btn btn-outline-secondary">
+                </div>
             </div>
-            <input type="hidden" name="submit">
-            <input type="submit" value="Выбрать" class="nav">
-            <div class="white_space">.</div>
         </form>
     {% endif %}
-    <a href="{{ path('knowledge_editor') }}">назад</a>
-
+{#    <a href="{{ path('knowledge_editor') }}">назад</a>#}
+    </div>
 {% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,19 +24,24 @@ class RegistrationFormType extends AbstractType
                     'Специалист' => "Specialist",
                     'Пользователь' => "User",
                 ],
+                'label'=>false
             ])
-            ->add('username')
+            ->add('username',TextType::class,[
+                'label'=>false,
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label'=>'Agree terms  ',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
-                ],
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label'=>false,
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -46,6 +52,7 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
+
                     ]),
                 ],
             ])

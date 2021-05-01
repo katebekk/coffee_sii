@@ -3,30 +3,22 @@
 {% block title %}возможные значения{% endblock %}
 
 {% block body %}
-    <h3> {{ quan_feature.name }} : возможные значения</h3>
+    <div class="container bg-light">
+        <h3> {{ quan_feature.name }} : возможные значения</h3>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Название</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for possible_value in quan_feature.quanPossibleValues %}
-            <tr>
-                <td>{{ possible_value.name }}</td>
-                <td>
-                    {{ include('quan_feature/_quan_possible_delete.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Значения не добавлены</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {{ include('quan_feature/_form.html.twig') }}
-    <a href="{{ path('feature_index') }}">назад</a>
-
+        <ul class="list-group">
+            {% for possible_value in quan_feature.quanPossibleValues %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ possible_value.name }}
+                    <span class="badge badge-primary badge-pill">{{ include('quan_feature/_quan_possible_delete.html.twig') }}</span>
+                </li>
+            {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Значения не добавлены
+                </li>
+            {% endfor %}
+        </ul>
+        {{ include('quan_feature/_form.html.twig') }}
+        <a href="{{ path('feature_index') }}">назад</a>
+    </div>
 {% endblock %}

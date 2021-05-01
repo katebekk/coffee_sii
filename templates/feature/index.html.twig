@@ -3,44 +3,37 @@
 {% block title %}Редактор признаков{% endblock %}
 
 {% block body %}
-    <style>
-        .layer {
-            overflow-x: auto; /* Добавляем полосы прокрутки */
-            width: calc(100vw - 100px); /* Ширина блока */
-            height: 50%; /* Высота блока */
-            padding: 5px; /* Поля вокруг текста */
-            /*border: solid 1px black; !* Параметры рамки *!*/
-        }
-    </style>
-    <h2>Список признаков</h2>
 
-    <div class="layer">
-        <table class="table">
+    <div class="container">
+        <h2>Список признаков</h2>
+        <table class="table bg-light">
             <thead>
             <tr>
-                <th>Название</th>
-                <th>Тип признака</th>
-                <th>Допустимые значения</th>
+                <th scope="col">Название</th>
+                <th scope="col">Тип признака</th>
+                <th scope="col">Допустимые значения</th>
+                <th scope="col">Действия</th>
             </tr>
 
             </thead>
             <tbody>
             {% for quan_feature in quan_features %}
                 <tr>
-                    <td>{{ quan_feature.name }}</td>
+                    <td scope="row">{{ quan_feature.name }}</td>
                     <td>качественный</td>
-                    <td>[{% for value in quan_feature.quanPossibleValues %}
-                        {{ value.name }} ,
-                    {% else %}
-                        ...
-                        {% endfor %}]
+                    <td>{% for value in quan_feature.quanPossibleValues %}
+                            <p>{{ value.name }}</p>
+                        {% else %}
+                            ...
+                        {% endfor %}
                     </td>
                     <td>
-                        <button class="green"><a href="{{ path('quan_feature_edit', {'id': quan_feature.id}) }}">Редактировать</a>
+                        <a class="btn-light nav-link link-dark px-2"
+                           href="{{ path('quan_feature_edit', {'id': quan_feature.id}) }}">Редактировать</a>
                         </button>
                     </td>
                     <td>
-                        {{ include('quan_feature/_delete_form.html.twig') }}
+                        <span class="badge badge-primary badge-pill">{{ include('quan_feature/_delete_form.html.twig') }}</span>
                     </td>
                 </tr>
             {% else %}
@@ -57,11 +50,12 @@
                         {% endif %}
                     </td>
                     <td>
-                        <button class="green"><a href="{{ path('count_feature_edit', {'id': count_feature.id}) }}">Редактировать</a>
-                        </button>
+                        <a class="btn-light nav-link link-dark px-2"
+                           href="{{ path('count_feature_edit', {'id': count_feature.id}) }}">Редактировать</a>
+
                     </td>
                     <td>
-                        {{ include('count_feature/_delete_form.html.twig') }}
+                        <span class="badge badge-primary badge-pill">{{ include('count_feature/_delete_form.html.twig') }}</span>
                     </td>
                 </tr>
             {% else %}
@@ -72,14 +66,9 @@
             </tbody>
         </table>
     </div>
-    <h2>Добавить признак: </h2>
-    <ul>
-        <li>
-            <button class="green"><a href="{{ path('quan_feature_new') }}">качественный</a></button>
-        </li>
-        <li>
-            <button class="green"><a href="{{ path('count_feature_new') }}">количественный</a></button>
-        </li>
-    </ul>
-    <a href="{{ path('knowledge_editor') }}">назад</a>
+    <div class="center bg-light">
+        <h2>Добавить признак: </h2>
+        <a class="btn-light nav-link link-dark px-2" href="{{ path('quan_feature_new') }}">качественный</a>
+        <a class="btn-light nav-link link-dark px-2" href="{{ path('count_feature_new') }}">количественный</a>
+    </div>
 {% endblock %}
