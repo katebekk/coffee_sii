@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Utils\Validator;
 use App\Entity\QuanFeatureValue;
 use App\Entity\CountFeatureValue;
 use App\Entity\CountPossibleValues;
@@ -32,6 +33,7 @@ class ValueOfFeatureController extends AbstractController
     private $quanFeatureValueRepository;
     private $countPossibleValuesRepository;
     private $quanPossibleValuesRepository;
+    private $validator;
 
 
     public function __construct(
@@ -41,7 +43,8 @@ class ValueOfFeatureController extends AbstractController
         CountFeatureRepository $countFeatureRepository,
         QuanFeatureRepository $quanFeatureRepository,
         CountPossibleValuesRepository $countPossibleValuesRepository,
-        QuanPossibleValuesRepository $quanPossibleValuesRepository
+        QuanPossibleValuesRepository $quanPossibleValuesRepository,
+        Validator $validator
     )
     {
         $this->coffeeSortRepository = $coffeeSortRepository;
@@ -51,6 +54,7 @@ class ValueOfFeatureController extends AbstractController
         $this->countFeatureRepository = $countFeatureRepository;
         $this->countPossibleValuesRepository = $countPossibleValuesRepository;
         $this->quanPossibleValuesRepository = $quanPossibleValuesRepository;
+        $this->validator = $validator;
 
     }
 
@@ -161,24 +165,5 @@ class ValueOfFeatureController extends AbstractController
     }
 
 
-    /**
-     * @Route("/integrity_check/{sortId}", name="integrity_check", methods={"GET", "POST"}, requirements={"id"="\d+"})
-     */
-    public function  integrityCheck(Request $request, $sortId = null): Response
-    {
-        $coffeeSort = $sortId;
-        if ($request->request->has('submit')) {
-            $coffeeSort = $this->coffeeSortRepository->findOneBy(['id' => $request->request->get('select')]);
-        }
-        if ($sortId) {
-            $coffeeSort = $this->coffeeSortRepository->findOneBy(['id' => $sortId]);
-        }
 
-        return $this->render('value_of_feature/integrity_check.html.twig', [
-            'coffeeSorts' => $this->coffeeSortRepository->findAll(),
-            'countFeatureValue' => $this->countFeatureValueRepository->findAll(),
-            'quanFeatureValue' => $this->quanFeatureValueRepository->findAll(),
-            'coffeeSort' => $coffeeSort,
-        ]);
-    }
 }
