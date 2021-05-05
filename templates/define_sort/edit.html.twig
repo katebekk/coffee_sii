@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактор признаков сорта{% endblock %}
+{% block stylesheet %}
+    {#    <link rel="stylesheet" href="/assets/css/form.css">#}
+{% endblock %}
+
+{% block body %}
+    <script language="JavaScript">
+        function toggle(source) {
+            checkboxes = document.getElementsByClassName('checkbox');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
+    <div class="container">
+        <h2>Выберете признаки</h2>
+
+        <form action="{{ path('define_sort_features') }}" method="post" name="form">
+            <div class="container">
+                <ul class="cboxtags list-group">
+                    {% for feature in quanFeatures %}
+                        <li class="list-group-item">
+                            <input type="checkbox" id="{{ feature.id }}" value="{{ feature.id }}"
+                                   class="checkbox" name="quanFeatures[]">
+                            <label for="{{ feature.id }}">{{ feature.name }}</label>
+                        </li>
+                    {% endfor %}
+                    {% for feature in countFeatures %}
+                        <li class="list-group-item">
+                            <input type="checkbox" id="{{ feature.id }}" value="{{ feature.id }}"
+                                   class="checkbox" name="countFeatures[]">
+                            <label for="{{ feature.id }}">{{ feature.name }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <input hidden name="submit">
+            <input type="checkbox" onClick="toggle(this)" /> Выбрать все<br/>
+            <input class="btn btn-primary my-2" type="submit" value="Выбрать" class="nav">
+        </form>
+
+    </div>
+{% endblock %}

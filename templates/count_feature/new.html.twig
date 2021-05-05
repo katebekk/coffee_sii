@@ -3,9 +3,11 @@
 {% block title %}Новый признак{% endblock %}
 
 {% block body %}
-    <h2>Добавить количественный признак</h2>
+    <div class="container bg-light">
+        <h2>Добавить количественный признак</h2>
 
-    {{ include('count_feature/_form.html.twig') }}
+        {{ include('count_feature/_form.html.twig') }}
 
-    <a href="{{ path('feature_index') }}">назад</a>
+        <a href="{{ path('feature_index') }}">назад</a>
+    </div>
 {% endblock %}

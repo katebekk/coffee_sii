@@ -6,6 +6,14 @@
 {% endblock %}
 
 {% block body %}
+    <script language="JavaScript">
+        function toggle(source) {
+            checkboxes = document.getElementsByClassName('checkbox');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
     <div class="container">
     <h2>Редактирование признаков сорта {{ coffeeSort }}</h2>
 
@@ -45,12 +53,10 @@
         </div>
 
         <input hidden name="submit">
+        <input type="checkbox" onClick="toggle(this)" /> Выбрать все<br/>
         <input class="btn btn-primary my-2" type="submit" value="Сохранить" class="nav">
-{#        <input type="button" value="Выбрать все" class="nav" id="selectAll">#}
-{#        <input type="button" value="Убрать все" class="nav" id="unselectAll">#}
     </form>
 
     <a href="{{ path('features_of_sort_index') }}" class="nav">Назад к редактору</a>
-{#    <script src="/assets/js/select.js"></script>#}
     </div>
 {% endblock %}

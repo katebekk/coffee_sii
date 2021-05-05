@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактор признаков сорта{% endblock %}
+{% block stylesheet %}
+    {#    <link rel="stylesheet" href="/assets/css/form.css">#}
+{% endblock %}
+
+{% block body %}
+    <div class="container bg-light">
+        <h2>Результат</h2>
+        {% for res in result %}
+        <a>{{ res }}</a>
+        {% endfor %}
+{#        <a>Объяснение:</a>#}
+{#        <p>Совпадают следующие признаки:</p>#}
+
+    </div>
+{% endblock %}

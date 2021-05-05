@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактор признаков сорта{% endblock %}
+{% block stylesheet %}
+    {# <link rel="stylesheet" href="/assets/css/form.css"> #}
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="container bg-light">
+        <h2>Введите значения признаков</h2>
+
+        <form action="{{ path('define_sort_values') }}" method="post">
+            <div class="list-group">
+                {% for feature in quanFeatures %}
+                    <div class=" list-group-item">
+                        <a>{{ feature }}</a>
+                        <select name="quanFeatures[]" required class="custom-select">
+                            {% for possibleValue in quanPossibleValues %}
+                                {% if possibleValue.feature == feature %}
+                                    <option value="{{ possibleValue.id }}">
+                                        {{ possibleValue.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+                {% for feature in countFeatures %}
+                    <div class=" list-group-item" value="{{ feature.id }}" id="{{ feature.id }}" name="countFeatures[]">
+                        <a>{{ feature }}</a><br>
+
+                        <label for="min">От</label>
+                        <input type="number" name="min[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
+                               style="width: 12%;display: inline;" required>
+                        <label for="max">До</label>
+                        <input type="number" name="max[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
+                               style="width: 12%;display: inline;" required>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <input hidden name="submit">
+            <input class="btn btn-primary my-2" type="submit" value="Определить сорт" class="nav">
+            <a href="{{ path('define_sort_features') }}" class="nav">Назад</a>
+        </form>
+    </div>
+{% endblock %}

@@ -27,25 +27,6 @@
 </head>
 <body>
 <header>
-    {# {% block header %}
-                <div class="header_logo">
-                    <a href="">Coffe Sort</a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="{{ path('main') }}">Главная</a></li>
-
-                    </ul>
-                </nav>
-                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                    <button class="green"><a href="{{ path('app_logout') }}">Выйти</a> </button>
-                {% else %}
-                    <button class="green"><a href="{{ path('app_login') }}">Войти</a> </button>
-                    <button class="green"><a href="{{ path('app_register') }}">Регистрация</a> </button>
-                {% endif %}
-            {% endblock %}
-        </header>
-    #}
     {% block header %}
         <div class="container">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light " style="background-color: #e3f2fd;">
