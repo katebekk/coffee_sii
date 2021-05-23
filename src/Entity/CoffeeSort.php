@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\CoffeeSortRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CoffeeSortRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Сорт с таким названием уже существует")
  */
 class CoffeeSort
 {
@@ -20,7 +22,7 @@ class CoffeeSort
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 

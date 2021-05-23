@@ -32,6 +32,11 @@ class CountFeature
      */
     private $countPossibleValues;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $measure;
+
 
     public function getId(): ?int
     {
@@ -70,5 +75,17 @@ class CountFeature
     public function __toString(){
         // to show the name of the Category in the select
         return $this->name;
+    }
+
+    public function getMeasure(): ?string
+    {
+        return $this->measure;
+    }
+
+    public function setMeasure(?string $measure): self
+    {
+        $this->measure = $measure;
+
+        return $this;
     }
 }

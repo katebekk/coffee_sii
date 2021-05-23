@@ -19,7 +19,11 @@
             <tbody>
             {% for quan_feature in quan_features %}
                 <tr>
-                    <td scope="row">{{ quan_feature.name }}</td>
+                    <td scope="row">{{ quan_feature.name }}
+                    {% if quan_feature.measure  %}
+                        , {{ quan_feature.measure }}
+                    {% endif %}
+                    </td>
                     <td>качественный</td>
                     <td>{% for value in quan_feature.quanPossibleValues %}
                             <p>{{ value.name }}</p>
@@ -43,7 +47,11 @@
             {% endfor %}
             {% for count_feature in count_features %}
                 <tr>
-                    <td>{{ count_feature.name }}</td>
+                    <td>{{ count_feature.name }}
+                        {% if count_feature.measure  %}
+                            , {{ count_feature.measure }}
+                        {% endif %}
+                    </td>
                     <td>количественный</td>
                     <td>{% if count_feature.countPossibleValues %}
                             [ {{ count_feature.countPossibleValues.min }}: {{ count_feature.countPossibleValues.max }} ]

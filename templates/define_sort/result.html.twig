@@ -11,6 +11,12 @@
         {% for res in result %}
         <a>{{ res }}</a>
         {% endfor %}
+        {% for coffeeSort, expl in explain %}
+            <p>
+                    <li>Сорт "{{ coffeeSort }}" не подошел</li>
+                    <p>{{ expl }}</p>
+            </p>
+        {% endfor %}
 {#        <a>Объяснение:</a>#}
 {#        <p>Совпадают следующие признаки:</p>#}
 

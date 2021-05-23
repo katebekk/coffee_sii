@@ -16,6 +16,10 @@ class QuanFeatureType extends AbstractType
             ->add('name',TextType::class,[
                 'label'=>false
             ])
+            ->add('measure',TextType::class, [
+                'label' => 'Еденица измерения',
+                'required'=>false
+            ])
         ;
     }
 

@@ -15,7 +15,11 @@
             <div class="list-group">
                 {% for feature in quanFeatures %}
                     <div class=" list-group-item">
-                        <a>{{ feature }}</a>
+                        <a>{{ feature }}
+                            {% if feature.measure  %}
+                                , {{ feature.measure }}
+                            {% endif %}
+                        </a>
                         <select name="quanFeatures[]" required class="custom-select">
                             {% for possibleValue in quanPossibleValues %}
                                 {% if possibleValue.feature == feature %}
@@ -28,14 +32,18 @@
                 {% endfor %}
                 {% for feature in countFeatures %}
                     <div class=" list-group-item" value="{{ feature.id }}" id="{{ feature.id }}" name="countFeatures[]">
-                        <a>{{ feature }}</a><br>
+                        <a>{{ feature }}
+                            {% if feature.measure  %}
+                                , {{ feature.measure }}
+                            {% endif %}
+                        </a><br>
 
-                        <label for="min">От</label>
-                        <input type="number" name="min[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
+                        <label for="val">Значение</label>
+                        <input type="number" step="0.01" min="0" name="val[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
                                style="width: 12%;display: inline;" required>
-                        <label for="max">До</label>
-                        <input type="number" name="max[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
-                               style="width: 12%;display: inline;" required>
+                        {#<label for="max">До</label>
+                        <input type="number" step="0.01" min="0" name="max[{{ feature.id }}]" id="{{ feature.id }}" class="form-control"
+                               style="width: 12%;display: inline;" required>#}
                     </div>
                 {% endfor %}
             </div>

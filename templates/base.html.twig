@@ -30,7 +30,7 @@
     {% block header %}
         <div class="container">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light " style="background-color: #e3f2fd;">
-                <a class="navbar-brand" href="#">Coffee Sort</a>
+                <a class="navbar-brand" href="{{ path('main') }}">Coffee Sort</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,24 +41,28 @@
                             <a class="nav-link" href="{{ path('main') }}">Главная <span
                                         class="sr-only">(current)</span></a>
                         </li>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path("coffee_sort_index") }}">Сорта кофе</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path("integrity_check")}}">Проверка целостности</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Признаки
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{{ path("feature_index") }}">Редактор признаков</a>
-                                <a class="dropdown-item" href="{{ path("features_of_sort_index")}}">Редактор признаков сорта</a>
-                                <a class="dropdown-item" href="{{ path("value_of_feature")}}">Значения признаков сорта</a>
-                            </div>
-                        </li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if is_granted('ROLE_SPECIALIST') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path("coffee_sort_index") }}">Сорта кофе</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path("integrity_check") }}">Проверка целостности</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Признаки
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path("feature_index") }}">Редактор признаков</a>
+                                    <a class="dropdown-item" href="{{ path("features_of_sort_index") }}">Редактор
+                                        признаков сорта</a>
+                                    <a class="dropdown-item" href="{{ path("value_of_feature") }}">Значения признаков
+                                        сорта</a>
+                                </div>
+                            </li>
+                          {% endif%}
                         {% endif %}
                     </ul>
                     <ul class="nav ml-auto">
@@ -79,7 +83,7 @@
     {% endblock %}
 </header>
 <section class="jumbotron ">
-{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 </section>
 </body>
 </html>

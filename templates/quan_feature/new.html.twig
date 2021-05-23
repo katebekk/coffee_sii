@@ -3,9 +3,11 @@
 {% block title %}Новый признак{% endblock %}
 
 {% block body %}
+<div class="container bg-light">
     <h2>Добавить качественный признак</h2>
 
     {{ include('quan_feature/_form.html.twig') }}
 
     <a href="{{ path('feature_index') }}">назад</a>
+</div>
 {% endblock %}

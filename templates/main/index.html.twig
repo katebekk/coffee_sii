@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Главная страница{% endblock %}
 
 {% block body %}
 
@@ -8,5 +8,8 @@
 <div class="container text-center py-5 bg-light ">
     <h2 class="font-weight-light">Добро пожаловать в систему определения сорта кофе! </h2>
     <a href="{{ path("define_sort_features") }}" class="btn btn-secondary my-2">Определить сорт кофе</a>
+    <h3>Для редактирования базы знаний необходимо
+        <a href="{{ path('app_login') }}" class="btn btn-sm btn-outline-secondary my-2">авторизоваться</a> как специалист,<br>
+        если нет учетной записи <a href="{{ path('app_register') }}" class="btn btn-sm btn-outline-secondary my-2">зарегистрироваться</a></h3>
 </div>
 {% endblock %}

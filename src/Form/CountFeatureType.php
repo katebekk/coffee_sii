@@ -16,6 +16,11 @@ class CountFeatureType extends AbstractType
             ->add('name',TextType::class, [
                 'label' => 'Название'
             ])
+            ->add('measure',TextType::class, [
+                'label' => 'Еденица измерения',
+                'required'=>false
+            ])
+
         ;
     }
 

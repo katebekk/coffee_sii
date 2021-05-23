@@ -7,6 +7,8 @@ use App\Entity\CountPossibleValues;
 use App\Form\CountFeatureType;
 use App\Form\CountPossibleValuesType;
 use App\Repository\CountFeatureRepository;
+use App\Repository\CountFeatureValueRepository;
+use App\Repository\CountPossibleValuesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CountFeatureController extends AbstractController
 {
+    private $countFeatureValueRepository;
+    private $countPossibleValuesRepository;
+
+    public function __construct(
+        CountFeatureValueRepository $countFeatureValueRepository,
+        CountPossibleValuesRepository $countPossibleValuesRepository
+    ){
+        $this->countFeatureValueRepository = $countFeatureValueRepository;
+        $this->countPossibleValuesRepository = $countPossibleValuesRepository;
+    }
 
     /**
      * @Route("/new", name="count_feature_new", methods={"GET","POST"})
@@ -86,6 +98,18 @@ class CountFeatureController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$countFeature->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $possibleValue = $this->countPossibleValuesRepository->findOneBy(['feature' => $countFeature]);
+            $valuesOfFeature = $this->countFeatureValueRepository->findBy(['feature' => $countFeature]);
+
+            if ($possibleValue) {
+                $entityManager->remove($possibleValue);
+            }
+            foreach ($valuesOfFeature as $value) {
+                $entityManager->remove($value);
+            }
+
+
             $entityManager->remove($countFeature);
             $entityManager->flush();
         }

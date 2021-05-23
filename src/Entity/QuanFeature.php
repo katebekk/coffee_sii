@@ -31,6 +31,11 @@ class QuanFeature
      */
     private $quanPossibleValues;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $measure;
+
 
     public function __construct()
     {
@@ -86,6 +91,18 @@ class QuanFeature
     public function __toString(){
         // to show the name of the Category in the select
         return $this->name;
+    }
+
+    public function getMeasure(): ?string
+    {
+        return $this->measure;
+    }
+
+    public function setMeasure(?string $measure): self
+    {
+        $this->measure = $measure;
+
+        return $this;
     }
     
 }

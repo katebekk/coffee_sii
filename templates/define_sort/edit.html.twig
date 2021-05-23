@@ -2,14 +2,14 @@
 
 {% block title %}Редактор признаков сорта{% endblock %}
 {% block stylesheet %}
-    {#    <link rel="stylesheet" href="/assets/css/form.css">#}
+    {# <link rel="stylesheet" href="/assets/css/form.css"> #}
 {% endblock %}
 
 {% block body %}
     <script language="JavaScript">
         function toggle(source) {
             checkboxes = document.getElementsByClassName('checkbox');
-            for(var i=0, n=checkboxes.length;i<n;i++) {
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
                 checkboxes[i].checked = source.checked;
             }
         }
@@ -24,21 +24,26 @@
                         <li class="list-group-item">
                             <input type="checkbox" id="{{ feature.id }}" value="{{ feature.id }}"
                                    class="checkbox" name="quanFeatures[]">
-                            <label for="{{ feature.id }}">{{ feature.name }}</label>
+                            <label for="{{ feature.id }}">{{ feature.name }}{% if feature.measure %}
+                                    , {{ feature.measure }}
+                                {% endif %}</label>
                         </li>
                     {% endfor %}
                     {% for feature in countFeatures %}
                         <li class="list-group-item">
                             <input type="checkbox" id="{{ feature.id }}" value="{{ feature.id }}"
                                    class="checkbox" name="countFeatures[]">
-                            <label for="{{ feature.id }}">{{ feature.name }}</label>
+                            <label for="{{ feature.id }}">{{ feature.name }} {% if feature.measure %}
+                                    , {{ feature.measure }}
+                                {% endif %}
+                            </label>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
 
             <input hidden name="submit">
-            <input type="checkbox" onClick="toggle(this)" /> Выбрать все<br/>
+            <input type="checkbox" onClick="toggle(this)"/> Выбрать все<br/>
             <input class="btn btn-primary my-2" type="submit" value="Выбрать" class="nav">
         </form>
 

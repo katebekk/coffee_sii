@@ -7,6 +7,8 @@ use App\Entity\QuanPossibleValues;
 use App\Form\QuanFeatureType;
 use App\Form\QuanPossibleValuesType;
 use App\Repository\QuanFeatureRepository;
+use App\Repository\QuanFeatureValueRepository;
+use App\Repository\QuanPossibleValuesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuanFeatureController extends AbstractController
 {
 
+    private $quanFeatureValueRepository;
+    private $quanPossibleValuesRepository;
+
+    public function __construct(
+        QuanFeatureValueRepository $quanFeatureValueRepository,
+        QuanPossibleValuesRepository $quanPossibleValuesRepository
+    ){
+        $this->quanFeatureValueRepository = $quanFeatureValueRepository;
+        $this->quanPossibleValuesRepository = $quanPossibleValuesRepository;
+    }
     /**
      * @Route("/new", name="quan_feature_new", methods={"GET","POST"})
      */
@@ -74,6 +86,15 @@ class QuanFeatureController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$quanFeature->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $possibleValues = $this->quanPossibleValuesRepository->findBy(['feature' => $quanFeature]);
+            $valuesOfFeature = $this->quanFeatureValueRepository->findBy(['feature' => $quanFeature]);
+
+            foreach ($possibleValues as $possibleValue) {
+                $entityManager->remove($possibleValue);
+            }
+            foreach ($valuesOfFeature as $value) {
+                $entityManager->remove($value);
+            }
             $entityManager->remove($quanFeature);
             $entityManager->flush();
         }

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Utils\Validator;
 
 class DefineSortController extends AbstractController
 {
@@ -29,6 +30,7 @@ class DefineSortController extends AbstractController
     private $quanPossibleValuesRepository;
     private $countFeatureValueRepository;
     private $quanFeatureValueRepository;
+    private $validator;
 
     public function __construct(
         CoffeeSortRepository $coffeeSortRepository,
@@ -37,7 +39,8 @@ class DefineSortController extends AbstractController
         CountPossibleValuesRepository $countPossibleValuesRepository,
         QuanPossibleValuesRepository $quanPossibleValuesRepository,
         CountFeatureValueRepository $countFeatureValueRepository,
-        QuanFeatureValueRepository $quanFeatureValueRepository
+        QuanFeatureValueRepository $quanFeatureValueRepository,
+        Validator $validator
 
     )
     {
@@ -48,6 +51,7 @@ class DefineSortController extends AbstractController
         $this->quanPossibleValuesRepository = $quanPossibleValuesRepository;
         $this->countFeatureValueRepository = $countFeatureValueRepository;
         $this->quanFeatureValueRepository = $quanFeatureValueRepository;
+        $this->validator = $validator;
     }
 
     /**
@@ -94,15 +98,26 @@ class DefineSortController extends AbstractController
     public function values(Request $request): Response
     {
         if ($request->request->has('submit')) {
-            $similarity = [];
             $explain = [];
+            $similarity = [];
             $quanValues = [];
             $countValues = [];
             $countFeaturesId = null;
+
+            $coffeeSorts = $this->coffeeSortRepository->findAll();
+
+            $countFeatures = $this->countFeatureRepository->findAll();
+            $quanFeatures = $this->quanFeatureRepository->findAll();
+            $notValidItem = array_keys($this->validator->validate());
+
+            $quanFeatures = $this->deleteNotValid($quanFeatures, $notValidItem);
+            $countFeatures = $this->deleteNotValid($countFeatures, $notValidItem);
+            $coffeeSorts = $this->deleteNotValid($coffeeSorts, $notValidItem);
+
+
             $quanFeaturesValuesId = $request->request->get('quanFeatures');
-            $countFeaturesValuesMin = $request->request->get('min');
-            $countFeaturesValuesMax = $request->request->get('max');
-            if ($countFeaturesValuesMin) $countFeaturesId = array_keys($countFeaturesValuesMin);
+            $countFeaturesValues = $request->request->get('val');
+            if ($countFeaturesValues) $countFeaturesId = array_keys($countFeaturesValues);
             if ($quanFeaturesValuesId) {
                 foreach ($quanFeaturesValuesId as $fid) {
                     $value = $this->quanPossibleValuesRepository->findOneBy(['id' => $fid]);
@@ -114,10 +129,9 @@ class DefineSortController extends AbstractController
                 foreach ($countFeaturesId as $fid) {
                     $feature = $this->countFeatureRepository->findOneBy(['id' => $fid]);
                     $value = $this->countPossibleValuesRepository->findOneBy(['feature' => $feature]);
-                    $min = $countFeaturesValuesMin[$fid];
-                    $max = $countFeaturesValuesMax[$fid];
-                    if ($min >= $value->getMin() and $max <= $value->getMax()) {
-                        $countValues[] = [$min, $max, $feature];
+                    $val = $countFeaturesValues[$fid];
+                    if ($val >= $value->getMin() and $val <= $value->getMax()) {
+                        $countValues[] = [$val, $feature];
                     }
                 }
 
@@ -128,42 +142,157 @@ class DefineSortController extends AbstractController
                     $coffeeSortValue = $this->quanFeatureValueRepository->findOneBy(['coffeeSort' => $coffeeSort,
                         'feature' => $quanPossValue->getFeature()]);
                     if ($coffeeSortValue) {
-                        if ($coffeeSortValue->getFeatureValues()->contains($quanPossValue)) {
-                            $similarity[$coffeeSort->getName()]++;
+                        if (!$coffeeSortValue->getFeatureValues()->contains($quanPossValue)) {
+                            $feature = $quanPossValue->getFeature();
+                            $explain[$coffeeSort->getName()] = "Сорт не подходит, т.к. значение признака \"$feature\" - $quanPossValue не входит во множество значений данного признака.";
+                            unset($coffeeSorts[array_search($coffeeSort,$coffeeSorts)]);
                         }
+                    }else{
+                        $feature = $quanPossValue->getFeature();
+                        $explain[$coffeeSort->getName()] = "Сорт не подходит, т.к. признак \"$feature\" не задан у данного сорта";
                     }
                 }
                 foreach ($countValues as $countValue) {
                     $coffeeSortValue = $this->countFeatureValueRepository->findOneBy(['coffeeSort' => $coffeeSort,
-                        'feature' => $countValue[2]]);
+                        'feature' => $countValue[1]]);
                     if ($coffeeSortValue) {
-                        if ($min >= $coffeeSortValue->getMin() and $max <= $coffeeSortValue->getMax()) {
-                            $similarity[$coffeeSort->getName()]++;
+                        if ($val < $coffeeSortValue->getMin()) {
+                            $min = $coffeeSortValue->getMin();
+                            $explain[$coffeeSort->getName()] = "Сорт не подходит, т.к. значение признака \"$countValue[1]\" - $val меньше нижней границы ($min) множества значений данного признака.";
+                            unset($coffeeSorts[array_search($coffeeSort,$coffeeSorts)]);
                         }
+                        if ($val > $coffeeSortValue->getMax()) {
+                            $max = $coffeeSortValue->getMax();
+                            $explain[$coffeeSort->getName()] = "Сорт не подходит, т.к. значение признака \"$countValue[1]\" - $val больше верхней границы ($max) множества значений данного признака.";
+                            unset($coffeeSorts[array_search($coffeeSort,$coffeeSorts)]);
+                        }
+                    }else{
+                        $explain[$coffeeSort->getName()] = "Сорт не подходит, т.к. признак \"$countValue[1]\" не задан у данного сорта";
                     }
                 }
             }
 
-            if (max($similarity) == 0) {
-                $result = "Сорт кофе не определен, попробуйте ввести другие значения признаков";
+            if (count($coffeeSorts) == 0) {
+                $result = ["Сорт кофе не определен, попробуйте ввести другие значения признаков"];
             } else {
-                $result = array_keys($similarity,max($similarity));
+                $result = $coffeeSorts;
 //                    array_search(max($similarity), $similarity);
             }
 
 
             return $this->render('define_sort/result.html.twig', [
                 'quanFeaturesValuesId' => $quanFeaturesValuesId,
-                'countFeaturesValuesMin' => $countFeaturesValuesMin,
+                'countFeaturesValues' => $countFeaturesValues,
                 'quanValues' => $quanValues,
                 'countValues' => $countValues,
                 'similarity' => $similarity,
                 'result' => $result,
+                'explain' => $explain,
             ]);
         }
         return $this->render('define_sort/values.html.twig', [
             'quanPossibleValues' => $this->quanPossibleValuesRepository->findAll(),
             'countPossibleValues' => $this->countPossibleValuesRepository->findAll()
+        ]);
+    }
+
+    private function deleteNotValid(array $heystack, array $notValid): array {
+        foreach ($heystack as $item) {
+            foreach ($notValid as $notValidItem) {
+                if ($item->getName() === $notValidItem) {
+                    unset($heystack[array_search($item, $heystack)]);
+                }
+            }
+        }
+
+        return array_filter($heystack);
+    }
+
+    /**
+     * @Route("/classifier", name="classifier_make")
+     */
+    public function classify(Request $request): Response
+    {
+        if ($request->request->has('submit')) {
+            $explain = [];
+            $coffeeSorts = $this->coffeeSortRepository->findAll();
+            $countFeatures = $this->countFeatureRepository->findAll();
+            $quanFeatures = $this->quanFeatureRepository->findAll();
+            $notValidItem = array_keys($this->validator->validate());
+
+            $quanFeatures = $this->deleteNotValid($quanFeatures, $notValidItem);
+            $countFeatures = $this->deleteNotValid($countFeatures, $notValidItem);
+            $coffeeSorts = $this->deleteNotValid($coffeeSorts, $notValidItem);
+
+            foreach ($countFeatures as $feature) {
+                if (!$request->request->has($feature->getAlias())) {
+                    continue;
+                }
+                $value = $request->request->get($feature->getAlias());
+
+                foreach ($coffeeSorts as $coffeeSort) {
+                    $valuesForGenre = $this->valueOfFeatureRepository->findOneBy([
+                        'coffeeSort' => $coffeeSort,
+                        'countFeature' => $feature
+                    ]);
+                    if (!$valuesForGenre) {
+                        $explain[$coffeeSort->getName()] = "Жанр не подходит, т.к. признак \"$feature\" не задан у данного жанра";
+                        unset($coffeeSort[array_search($coffeeSort,$coffeeSorts)]);
+                        continue;
+                    }
+                    $valuesForGenre = json_decode($valuesForGenre->getValue(), true);
+                    if ($feature->getType() === Feature::QUALITATIVE) {
+                        $isFind = false;
+                        foreach ($valuesForGenre as $item) {
+                            if (strtolower($item) === strtolower($value)) {
+                                $isFind = true;
+                                break;
+                            }
+                        }
+                        if (!$isFind) {
+                            $explain[$genre->getName()] = "Жанр не подходит, т.к. значение признака \"$feature\" - $value не входит во множество значений данного признака.";
+                            unset($genres[array_search($genre,$genres)]);
+                        }
+                    } else {
+                        if ($value < $valuesForGenre[0]) {
+                            $explain[$genre->getName()] = "Жанр не подходит, т.к. значение признака \"$feature\" - $value меньше нижней границы ($valuesForGenre[0]) множества значений данного признака.";
+                            unset($genres[array_search($genre,$genres)]);
+                        }
+                        if ($value > $valuesForGenre[1]) {
+                            $explain[$genre->getName()] = "Жанр не подходит, т.к. значение признака \"$feature\" - $value больше верхней границы ($valuesForGenre[1]) множества значений данного признака.";
+                            unset($genres[array_search($genre,$genres)]);
+                        }
+                    }
+                    array_filter($genres);
+                }
+            }
+
+            return $this->render('classifier/answer.html.twig', [
+                'genres' => $genres,
+                'explain' => $explain
+            ]);
+        }
+
+        $featuresId = $request->query->get('features');
+        $features = [];
+        $possibleValues = [];
+        if (!$featuresId) {
+            return $this->render('classifier/answer.html.twig', [
+                'genres' => $this->genreRepository->findAll(),
+                'explain' => null
+            ]);
+        }
+        foreach ($featuresId as $id) {
+            $features[] = $this->featureRepository->findOneBy(['id' => $id]);
+        }
+        foreach ($features as $feature) {
+            $possibleValue = $this->possibleValueRepository->findOneBy(['feature' => $feature]);
+            $possibleValues[$feature->getAlias()] = $possibleValue->getValue();
+        }
+
+        return $this->render('classifier/form.html.twig', [
+            'features' => $features,
+            'possibleValues' => $possibleValues
         ]);
     }
 

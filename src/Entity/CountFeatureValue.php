@@ -18,7 +18,7 @@ class CountFeatureValue
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CoffeeSort::class, inversedBy="countFeatureValues", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=CoffeeSort::class, inversedBy="countFeatureValues")
      * @ORM\JoinColumn(nullable=false)
      */
     private $coffeeSort;

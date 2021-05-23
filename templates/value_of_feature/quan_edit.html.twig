@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container bg-light">
-    <h2>Редактировать значение признака сорта</h2>
+    <h2>Редактировать значение признака сорта {{ coffeeSort }}</h2>
     {% if featureValues %}
     <form action="{{ path('value_of_quan_feature_edit', {'sortId': coffeeSort.id, 'featureId': feature.id}) }}" method="post">
         <div class="container">
